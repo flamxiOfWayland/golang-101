@@ -1,0 +1,32 @@
+definitions:
+  ping.Default:
+    properties:
+      what:
+        type: string
+      who:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /ping:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+    post:
+      parameters:
+      - description: Default Input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/ping.Default'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+swagger: "2.0"
