@@ -30,10 +30,11 @@ func NewController(opts ...optFunc) *Controller {
 	c := &Controller{
 		router: mux.NewRouter(),
 	}
-	c.setup()
 	for _, opt := range opts {
 		opt(c)
 	}
+	c.setup()
+
 	return c
 }
 
@@ -77,11 +78,8 @@ func (c *Controller) allowedClientsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if slices.Contains(c.clients, r.Host) {
 			next.ServeHTTP(w, r)
-			slog.Warn("will be serving", "client", r.Host)
 			return
 		}
-		slog.Warn("will not be serving", "client", r.Host)
-		r = nil
-		return
+		w.WriteHeader(http.StatusBadGateway)
 	})
 }

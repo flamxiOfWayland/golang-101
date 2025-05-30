@@ -34,6 +34,11 @@ func main() {
 			return
 		}
 
+		if resp.StatusCode != http.StatusOK {
+			slog.Error("non ok response", "status", resp.Status)
+			return
+		}
+
 		raw, err := io.ReadAll(resp.Body)
 		if err != nil {
 			slog.Error("invalid response", "err", err)
@@ -57,6 +62,11 @@ func main() {
 		resp, err := http.Post(url, "application/json", data)
 		if err != nil {
 			slog.Error("invalid request sent", "err", err)
+			return
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			slog.Error("non ok response", "status", resp.Status)
 			return
 		}
 

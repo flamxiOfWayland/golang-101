@@ -10,8 +10,8 @@ func main() {
 		WithAddressLogs(),
 		WithAllowedClients(
 			[]string{
-				"0.0.0.1:80",
 				// "0.0.0.0:80",
+				"localhost:80",
 			},
 		),
 	)
